@@ -9,7 +9,7 @@ Package.describe({
 Package.onUse(function(api)
 {
   api.versionsFrom('1.2.1');
-  api.use([ 'ecmascript', 'mongo', 'underscore', 'jsx', 'gunjansoni:ddpconnector' ]);
+  api.use([ 'ecmascript', 'mongo', 'underscore', 'jsx@0.2.3', 'gunjansoni:ddpconnector@0.0.1' ]);
   api.addFiles('notifications-client.jsx');
   api.addFiles('notifications-server.jsx', 'server');
   api.export([ 'ClientNotifications', 'ServerNotifications' ]);
