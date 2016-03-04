@@ -6,7 +6,6 @@ ServerNotifications = class {
         this._ensureIndexes();
         this._startPublication();
         this._allowUpdates();
-        this._setMethods();
         return this;
     }
 
