@@ -40,8 +40,8 @@ ClientNotifications = class {
         this.handlers[subject] = this.collection.find({subject}).observe({added: callbackfunction});
     }
 
-    allNotifications() {
-        this.handles["all"] = this.collection.find({subject});
+    allNotifications(selector = {}, options = {}) {
+        this.handles["all"] = this.collection.find(selector, options);
     }
 
     stop()
