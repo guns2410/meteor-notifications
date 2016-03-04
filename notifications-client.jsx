@@ -37,7 +37,7 @@ ClientNotifications = class {
                 }
             });
         }
-        this.handlers[subject] = this.collection.find({subject}).observe({added: callbackfunction});
+        this.handlers[subject] = this.collection.find({subject, delivered: 0}).observe({added: callbackfunction});
     }
 
     allNotifications(selector = {}, options = {}) {
