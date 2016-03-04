@@ -29,8 +29,7 @@ ServerNotifications = class {
                 intendedFor,
                 date: {
                     $gt: startingFrom
-                },
-                delivered: 0
+                }
             });
         });
     }
