@@ -47,12 +47,12 @@ You can pass an additional parameter of the DDP URL to connect to another server
 
 Now we need to listen to a specific subject and pass a date starting from to listen to messages. You can pass a valid date object from the past to read previous messages.
 
-        userNotifications.listen(Meteor.userId(), new Date());
+     userNotifications.listen(Meteor.userId(), new Date());
 
 With an `on` event you can pass a callback to perform an action on the message.
 
     userNotifications.on("someSubject", function(message) {
-        	// perform an action with the message
+        // perform an action with the message
     });
 
 The message object return on the `on` event has the below items:
