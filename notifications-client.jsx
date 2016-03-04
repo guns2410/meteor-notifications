@@ -44,6 +44,13 @@ ClientNotifications = class {
         return this.collection.find(selector, options);
     }
 
+    removeOn(subject) {
+        if(this.handlers[subject]) {
+            this.handlers[subject].stop();
+            delete this.handlers[subject]
+        }
+    }
+
     stop()
     {
         if (this.subscription !== null) {
