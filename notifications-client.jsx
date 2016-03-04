@@ -1,50 +1,58 @@
 ClientNotifications = class {
-  constructor(name, remoteUrl = "")
-  {
-    this.name       = name;
-    this.connection = Meteor;
-    if (remoteUrl && remoteUrl !== "")
+    constructor(name, remoteUrl = "")
     {
-      this.connection = new DDPConnector(remoteUrl).getConnection();
-      this.collection = new Mongo.Collection("notifications_" + this.name, this.connection);
-    } else
-    {
-      this.collection = new Mongo.Collection("notifications_" + this.name);
+        this.name = name;
+        this.connection = Meteor;
+        if (remoteUrl && remoteUrl !== "") {
+            this.connection = new DDPConnector(remoteUrl).getConnection();
+            this.collection = new Mongo.Collection("notifications_" + this.name, this.connection);
+        } else {
+            this.collection = new Mongo.Collection("notifications_" + this.name);
+        }
+
+        this.collection.allow({
+            update: (id, doc) => true
+        });
+
+        this.subscription = null;
+        this.handlers = {};
+        return this;
     }
 
-    this.collection.allow({update: (id, doc) => true});
-
-    this.subscription = null;
-    this.handlers     = {};
-    return this;
-  }
-
-  listen(intendedFor, startingFrom)
-  {
-    let subscriptionName = `notifications/${this.name}/publication`;
-    this.subscription    = this.connection.subscribe(subscriptionName, intendedFor, startingFrom);
-  }
-
-  on(subject, callback)
-  {
-      let callbackfunction = (message) => {
-          callback(message);
-          this.collection.update({_id: message._id}, {$set: {delivered: 1}});
-      }
-    this.handlers[ subject ] = this.collection.find({subject}).observe({added: callbackfunction});
-  }
-
-  stop()
-  {
-    if (this.subscription !== null)
+    listen(intendedFor, startingFrom)
     {
-      this.subscription.stop();
-      _.each(this.handlers, (handler, subject) =>
-      {
-        handler.stop();
-        delete this.handlers[ subject ];
-      });
-      this.subscription = null;
+        let subscriptionName = `notifications/${this.name}/publication`;
+        this.subscription = this.connection.subscribe(subscriptionName, intendedFor, startingFrom);
     }
-  }
+
+    on(subject, callback)
+    {
+        let callbackfunction = (message) => {
+            callback(message);
+            this.collection.update({
+                _id: message._id
+            }, {
+                $set: {
+                    delivered: 1
+                }
+            });
+        }
+        this.handlers[subject] = this.collection.find({subject}).observe({added: callbackfunction});
+    }
+
+    allNotifications() {
+        this.handles["all"] = this.collection.find({subject});
+    }
+
+    stop()
+    {
+        if (this.subscription !== null) {
+            this.subscription.stop();
+            _.each(this.handlers, (handler, subject) => {
+                handler.stop();
+                delete this.handlers[subject];
+            });
+            this.subscription = null;
+        }
+    }
 }
