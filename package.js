@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'gunjansoni:notifications',
-	version: '0.1.5',
+	version: '0.1.8',
 	summary: 'Exchange Notification Messages between Server and Clients via DDP Connection',
 	git: 'https://github.com/guns2410/meteor-notifications',
 	documentation: 'README.md'
