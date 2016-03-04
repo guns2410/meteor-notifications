@@ -11,7 +11,7 @@ This package can have a same back-end server or different client server, typical
 
 --------------------------------------------------------------------------------
 
->  **Server Side:**
+## Server Side
 
  The variable `ServerNotifications` is available on the Server side.
 
@@ -33,7 +33,7 @@ ServerNotifications accept the below parameters:
 
 --------------------------------------------------------------------------------
 
-> **Client Side:**
+## Client Side
 
 The variable `ClientNotifications` is available on the Client
 
@@ -70,7 +70,46 @@ The message object return on the `on` event has the below items:
 - subject: The subject on which the client is listening to
 - options: additional options sent by the server along with the message
 
+--------------------------------------------------------------------------------
+
+For using Subscriptions and getting all the notification count, here is a react example. The same could be done in Blaze much easier, however, putting a React Example as getting lot of requests on React Example.
+
+```
+TopMenuNotification = React.createClass({
+
+  mixins: [ ReactMeteorData ],
+
+  getMeteorData() {
+    let data   = {loading: true, notifications: [], count: 0};
+    let handle = UserNotifications.subscription;
+    if (handle.ready())
+    {
+      data.loading       = false;
+      data.notifications = UserNotifications.collection.find({}, {limit: 6, sort: {date: -1}}).fetch();
+      data.count         = UserNotifications.collection.find({delivered: 0}).count();
+    }
+    return data;
+  },
+
+  render() {
+    // Render your component here...
+  }
+});
+```
+
+--------------------------------------------------------------------------------
+
+The Notification Constructor is as below:
+
+- name: Name of the Notification that was initialized with
+- connection: Meteor object for the same server setup and DDP.Connect object for a remote connection
+- collection: the Collection responsible for storing the notifications
+- subscription: Live subscription handle
+- handlers: An object holding all the observers responsible to live querying the changes
+
 You can call `userNotifications.stop()` to stop the subscription and clear the subscription, suggested within the Logout method.
+
+--------------------------------------------------------------------------------
 
 This package is very new and I would want you to help improving it.
 
