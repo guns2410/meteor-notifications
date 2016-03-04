@@ -11,6 +11,9 @@ ClientNotifications = class {
     {
       this.collection = new Mongo.Collection("notifications_" + this.name);
     }
+
+    this.collection.allow({update: (id, doc) => true});
+
     this.subscription = null;
     this.handlers     = {};
     return this;
@@ -24,7 +27,11 @@ ClientNotifications = class {
 
   on(subject, callback)
   {
-    this.handlers[ subject ] = this.collection.find({subject}).observe({added: callback});
+      let callbackfunction = (message) => {
+          callback(message);
+          this.collection.update({_id: message._id}, {$set: {delivered: 1}});
+      }
+    this.handlers[ subject ] = this.collection.find({subject}).observe({added: callbackfunction});
   }
 
   stop()

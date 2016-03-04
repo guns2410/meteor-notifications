@@ -5,6 +5,7 @@ ServerNotifications = class {
     this.collection = new Mongo.Collection("notifications_" + this.name);
     this._ensureIndexes();
     this._startPublication();
+    this._allowUpdates();
     return this;
   }
 
@@ -13,6 +14,12 @@ ServerNotifications = class {
     this.collection._ensureIndex("intendedFor");
     this.collection._ensureIndex("date");
     this.collection._ensureIndex("subject");
+  }
+
+  _allowUpdates() {
+      this.collection.allow({
+          update: () => true
+      });
   }
 
   _startPublication()

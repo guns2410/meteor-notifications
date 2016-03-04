@@ -1,12 +1,12 @@
 meteor-notifications
 ====================
-Exchange Notification Messages between Server and Clients
+Exchange Notification Messages between Server and Clients via DDP Connection
 
 Installation
 ------------
 
     meteor add gunjansoni:notifications
-   
+
 
 This package can have a same back-end server or different client server, typically, a micro-service configuration.
 
@@ -19,10 +19,10 @@ This package can have a same back-end server or different client server, typical
  The variable `ServerNotifications` is available on the Server side.
 
      var userNotifications = new ServerNotifications("user_notifications");
-     
+
      // some database operations here...
      var userId = "UserId of the user the message is intended for";
-     
+
      userNotifications.notify("someSubject", "Message Title", "Your Message Here...", userId, options);
 
 ServerNotifications accept the below parameters:
