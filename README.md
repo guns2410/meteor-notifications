@@ -23,7 +23,7 @@ This package can have a same back-end server or different client server, typical
      // some database operations here...
      var userId = "UserId of the user the message is intended for";
      
-     userNotifications.notify("someSubject", "You have pending messages", "You have 20 pending messages. Navigate to 'My Messages' tab to read all", userId, options);
+     userNotifications.notify("someSubject", "Message Title", "Your Message Here...", userId, options);
 
 ServerNotifications accept the below parameters:
 
