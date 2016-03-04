@@ -41,7 +41,7 @@ ClientNotifications = class {
     }
 
     allNotifications(selector = {}, options = {}) {
-        this.handles["all"] = this.collection.find(selector, options);
+        this.handlers["all"] = this.collection.find(selector, options);
     }
 
     stop()
