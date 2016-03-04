@@ -4,7 +4,11 @@ ClientNotifications = class {
         this.name = name;
         this.connection = Meteor;
         if (remoteUrl && remoteUrl !== "") {
-            this.connection = new DDPConnector(remoteUrl).getConnection();
+            if (typeof remoteUrl === "string")
+                this.connection = new DDPConnector(remoteUrl).getConnection();
+            else
+                this.connection = remoteUrl;
+
             this.collection = new Mongo.Collection("notifications_" + this.name, this.connection);
         } else {
             this.collection = new Mongo.Collection("notifications_" + this.name);
@@ -45,7 +49,7 @@ ClientNotifications = class {
     }
 
     removeOn(subject) {
-        if(this.handlers[subject]) {
+        if (this.handlers[subject]) {
             this.handlers[subject].stop();
             delete this.handlers[subject]
         }
